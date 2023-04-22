@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const db = require("./config/connection");
 const routes = require("./controller");
 const morgan = require("morgan");
 
@@ -9,14 +10,13 @@ app.use(routes);
 app.use(express.json());
 app.use(morgan("combined"));
 
-mongoose
-  .connect("mongodb://127.0.0.1:27017/test")
-  .then(console.log("connected to MongoDB"))
-  .catch((err) => {
-    console.log("Error: ", err);
-  });
-
 const port = process.env.PORT || 3001;
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(routes);
+
+db.once("open", () => {
+  app.listen(port, () => {
+    console.log(`API server running on port ${port}!`);
+  });
 });
