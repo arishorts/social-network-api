@@ -11,7 +11,7 @@ reactionSchema = new Schema(
     reactionBody: {
       type: String,
       required: true,
-      maxLength: 280,
+      max_length: 280,
     },
     username: {
       type: String,
@@ -30,8 +30,8 @@ thoughtSchema = new Schema({
   thoughtText: {
     type: String,
     required: true,
-    minlength: 1,
-    maxLength: 280,
+    min_length: 1,
+    max_length: 280,
   },
   createdAt: {
     type: Date,
@@ -45,11 +45,11 @@ thoughtSchema = new Schema({
 //Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
 
 function validateThought(thought) {
-  const schema = {
+  const schema = Joi.object({
     thoughtText: Joi.string().alphanum().min(1).max(300).required(),
-  };
+  });
 
-  return Joi.validate(thought, schema);
+  return schema.validate(thought);
 }
 
 const Thought = model("thought", thoughtSchema);
