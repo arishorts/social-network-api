@@ -41,12 +41,81 @@ router.post("/", async (req, res) => {
 });
 
 //delete a user
+//BONUS: Remove a user's associated thoughts when deleted.
 router.delete("/:id", async (req, res) => {
+  //localhost:3001/api/users/:id
   try {
     const user = await User.findOneAndDelete({ _id: req.params.id });
     if (!user)
       return res.status(404).send("The user with the given ID was not found.");
     res.send(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//update a user
+router.put("/:id", async (req, res) => {
+  //localhost:3001/api/users/:id
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { username: req.body.username, email: req.body.email } }
+    );
+    if (!user)
+      return res.status(404).send("The user with the given ID was not found.");
+    const updatedUser = await User.findOne({ _id: req.params.id });
+    res.send(updatedUser);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//create a user's friends
+router.post("/:id/friends/:friendId", async (req, res) => {
+  //localhost:3001/api/users/:id/friends/:friendId"
+  try {
+    const friend = await User.findOne({ _id: req.params.friendId });
+    if (!friend)
+      return res
+        .status(404)
+        .send("The friend with the given user ID was not found.");
+
+    let user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $addToSet: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    );
+    if (!user)
+      return res.status(404).send("The user with the given ID was not found.");
+
+    user = await User.findOne({ _id: req.params.id });
+    res.send(user).status(200);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//remove a user's friends
+router.delete("/:id/friends/:friendId", async (req, res) => {
+  //localhost:3001/api/users/:id/friends/:friendId"
+  try {
+    const friend = await User.findOne({ _id: req.params.friendId });
+    if (!friend)
+      return res
+        .status(404)
+        .send("The friend with the given user ID was not found.");
+
+    let user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $pull: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    );
+    if (!user)
+      return res.status(404).send("The user with the given ID was not found.");
+
+    user = await User.findOne({ _id: req.params.id });
+    res.send(user).status(200);
   } catch (err) {
     res.status(500).json(err);
   }
