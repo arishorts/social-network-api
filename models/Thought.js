@@ -4,6 +4,7 @@ const { Schema, Types, model } = require("mongoose");
 reactionSchema = new Schema(
   {
     reactionId: {
+      //this is returning _id, id, and reactionsId.
       type: Schema.Types.ObjectId,
       // type: mongoose.ObjectId,
       default: () => new Types.ObjectId(),
@@ -20,10 +21,17 @@ reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (date) => `this is the date : ${date}`,
+      //get: (date) => `this is the date : ${date}`,
     },
   },
-  { toJSON: { getters: true } }
+  {
+    //i have no idea what this is doing
+    toJSON: {
+      virtuals: true,
+      getters: true,
+    },
+    id: false,
+  }
 );
 
 thoughtSchema = new Schema({
@@ -35,10 +43,12 @@ thoughtSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: (date) => `this is the date: ${date}`,
+    //default: (date) => `this is the date: ${date}`,
   },
   username: { type: String, required: true },
   reactions: [reactionSchema],
+
+  //	"__v": 0 what is this?
 });
 
 //Schema Settings
