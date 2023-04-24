@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Thought, validateThought } = require("../../models");
+const { Thought, validateThought } = require("../../models/Thought");
 
 //retrieve all thoughts
 router.get("/", async (req, res) => {
@@ -30,10 +30,10 @@ router.get("/:thoughtId", async (req, res) => {
 router.post("/", async (req, res) => {
   //localhost:3001/api/thoughts
   try {
-    //const { error } = validateUser(req.body);
-    //if (error) return res.status(400).send(error.details[0].message);
+    const { error, value } = await validateThought(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-    let thought = await Thought.create(req.body);
+    let thought = await Thought.create(value);
     res.send(thought).status(200);
   } catch (err) {
     res.status(500).json(err);

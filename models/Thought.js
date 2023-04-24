@@ -56,7 +56,8 @@ thoughtSchema = new Schema({
 
 function validateThought(thought) {
   const schema = Joi.object({
-    thoughtText: Joi.string().alphanum().min(1).max(300).required(),
+    thoughtText: Joi.string().min(1).max(300).required(),
+    username: Joi.string().required(),
   });
 
   return schema.validate(thought);

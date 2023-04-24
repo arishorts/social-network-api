@@ -1,5 +1,6 @@
 const router = require("express").Router();
-const { User, validateUser, Thought } = require("../../models");
+const { User, validateUser } = require("../../models/User");
+const { Thought } = require("../../models/Thought");
 
 //retrieve all users
 router.get("/", async (req, res) => {
@@ -30,8 +31,8 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   //localhost:3001/api/users
   try {
-    //const { error } = validateUser(req.body);
-    //if (error) return res.status(400).send(error.details[0].message);
+    const { error, value } = validateUser(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
     let user = await User.create(req.body);
     res.send(user).status(200);
