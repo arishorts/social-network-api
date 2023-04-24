@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const { Schema, Types, model } = require("mongoose");
+const dayjs = require("dayjs");
 
 reactionSchema = new Schema(
   {
@@ -20,8 +21,8 @@ reactionSchema = new Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
-      //get: (date) => `this is the date : ${date}`,
+      default: dayjs(),
+      get: (date) => dayjs(date).format("MMM D, YYYY HH:mm A"),
     },
   },
   {
@@ -34,22 +35,30 @@ reactionSchema = new Schema(
   }
 );
 
-thoughtSchema = new Schema({
-  thoughtText: {
-    type: String,
-    required: true,
-    min_length: 1,
-    max_length: 280,
+thoughtSchema = new Schema(
+  {
+    thoughtText: {
+      type: String,
+      required: true,
+      min_length: 1,
+      max_length: 280,
+    },
+    createdAt: {
+      type: Date,
+      default: dayjs(),
+      get: (date) => dayjs(date).format("MMM D, YYYY HH:mm A"),
+    },
+    username: { type: String, required: true },
+    reactions: [reactionSchema],
+    //	"__v": 0 what is this?
   },
-  createdAt: {
-    type: Date,
-    //default: (date) => `this is the date: ${date}`,
-  },
-  username: { type: String, required: true },
-  reactions: [reactionSchema],
-
-  //	"__v": 0 what is this?
-});
+  {
+    toJSON: {
+      getters: true,
+    },
+    id: false,
+  }
+);
 
 //Schema Settings
 //Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
