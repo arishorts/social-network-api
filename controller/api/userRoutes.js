@@ -6,7 +6,7 @@ const { Thought } = require("../../models/Thought");
 router.get("/", async (req, res) => {
   //localhost:3001/api/users/
   try {
-    const users = await User.find();
+    const users = await User.find().select("-__v");
 
     res.send(users).status(200);
   } catch (err) {
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   //localhost:3001/api/users/:id
   try {
-    const user = await User.findOne({ _id: req.params.id });
+    const user = await User.findOne({ _id: req.params.id }).select("-__v");
 
     !user
       ? res.status(404).json({ message: "No user with that ID" })
