@@ -4,6 +4,18 @@ const { thoughtSchema } = require("./Thought");
 
 userSchema = new Schema(
   {
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Thought",
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     username: {
       type: String,
       unique: true,
@@ -20,13 +32,6 @@ userSchema = new Schema(
         "Please fill a valid email address",
       ],
     },
-    thoughts: [thoughtSchema],
-    friends: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
   },
   {
     toJSON: {

@@ -6,7 +6,8 @@ const { Thought } = require("../../models/Thought");
 router.get("/", async (req, res) => {
   //localhost:3001/api/users/
   try {
-    const users = await User.find().sort("username");
+    const users = await User.find().populate("thoughts");
+
     res.send(users).status(200);
   } catch (err) {
     res.status(500).json(err);

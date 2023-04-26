@@ -1,5 +1,17 @@
 [
-  { "username": "arishorts", "email": "arishorts@gmail.com" },
-  { "username": "jaimee", "email": "jaimee@gmail.com" },
-  { "username": "tanner", "email": "tanner@gmail.com" }
+  {
+    "friends": [],
+    "username": "arishorts",
+    "email": "arishorts@gmail.com"
+  },
+  {
+    "friends": [],
+    "username": "jaimee",
+    "email": "jaimee@gmail.com"
+  },
+  {
+    "friends": [],
+    "username": "tanner",
+    "email": "tanner@gmail.com"
+  }
 ]

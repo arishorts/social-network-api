@@ -28,16 +28,21 @@ router.get("/:thoughtId", async (req, res) => {
 });
 
 //create a thought
-router.post("/:userId", async (req, res) => {
+router.post("/", async (req, res) => {
   //localhost:3001/api/thoughts
   try {
     const { error, value } = await validateThought(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
+    const user = await User.findOne({ username: req.body.username });
+    !user
+      ? res.status(404).json({ message: "No user with that username" })
+      : console.log("found user");
+
     let thought = await Thought.create(req.body);
     //the _id is not matching up for the created thought and what gets pushed to the user
     await User.findOneAndUpdate(
-      { _id: req.params.userId },
+      { _id: user._id },
       { $push: { thoughts: thought._id } },
       { new: true }
     );
