@@ -34,20 +34,20 @@ router.post("/", async (req, res) => {
     const { error, value } = await validateThought(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const user = await User.findOne({ username: req.body.username });
-    !user
-      ? res.status(404).json({ message: "No user with that username" })
-      : console.log("found user");
-
-    let thought = await Thought.create(req.body);
+    const thought = await Thought.create(req.body);
     //the _id is not matching up for the created thought and what gets pushed to the user
-    await User.findOneAndUpdate(
-      { _id: user._id },
-      { $push: { thoughts: thought._id } },
+    const user = await User.findOneAndUpdate(
+      { _id: req.body.userId },
+      { $addToSet: { thoughts: thought._id } },
       { new: true }
     );
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "Post created, but found no user with that ID" });
+    }
 
-    res.send(thought).status(200);
+    res.json("Created the thought 🎉");
   } catch (err) {
     res.status(500).json(err);
   }
