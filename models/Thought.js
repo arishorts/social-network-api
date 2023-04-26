@@ -77,3 +77,4 @@ const Thought = model("thought", thoughtSchema);
 exports.Thought = Thought;
 exports.validateThought = validateThought;
 exports.thoughtSchema = thoughtSchema;
+exports.reactionSchema = reactionSchema;

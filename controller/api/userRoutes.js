@@ -1,12 +1,11 @@
 const router = require("express").Router();
-const { User, validateUser } = require("../../models/User");
-const { Thought } = require("../../models/Thought");
+const { User, validateUser, Thought } = require("../../models");
 
 //retrieve all users
 router.get("/", async (req, res) => {
   //localhost:3001/api/users/
   try {
-    const users = await User.find();
+    const users = await User.find().select("-__v");
 
     res.send(users).status(200);
   } catch (err) {
@@ -18,11 +17,19 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   //localhost:3001/api/users/:id
   try {
-    const user = await User.findOne({ _id: req.params.id });
+    const user = await User.findOne({ _id: req.params.id }).select("-__v");
+    // .populate("thoughts");
+    //.populate({
+    //path: "Thought",
+    // populate: {
+    //   path: "reactions",
+    // },
+    // });
 
-    !user
-      ? res.status(404).json({ message: "No user with that ID" })
-      : res.send(user).status(200);
+    if (!user) {
+      return res.status(404).json({ message: "No user with that ID" });
+    }
+    res.json(user);
   } catch (err) {
     res.status(500).json(err);
   }
