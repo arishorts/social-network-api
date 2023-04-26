@@ -1,11 +1,12 @@
 const router = require("express").Router();
-const { Thought, validateThought, User } = require("../../models");
+const { Thought, validateThought } = require("../../models/Thought");
+const { User } = require("../../models/User");
 
 //retrieve all thoughts
 router.get("/", async (req, res) => {
   //localhost:3001/api/thoughts/
   try {
-    const thoughts = await Thought.find().sort("username").select("-__v");
+    const thoughts = await Thought.find().sort("username");
     res.send(thoughts).status(200);
   } catch (err) {
     res.status(500).json(err);
@@ -16,9 +17,7 @@ router.get("/", async (req, res) => {
 router.get("/:thoughtId", async (req, res) => {
   //localhost:3001/api/thoughts/:thoughtId
   try {
-    const thought = await Thought.findOne({ _id: req.params.thoughtId }).select(
-      "-__v"
-    );
+    const thought = await Thought.findOne({ _id: req.params.thoughtId });
 
     !thought
       ? res.status(404).json({ message: "No thought with that ID" })
