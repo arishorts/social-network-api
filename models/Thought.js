@@ -26,7 +26,6 @@ reactionSchema = new Schema(
     },
   },
   {
-    //i have no idea what this is doing
     toJSON: {
       virtuals: true,
       getters: true,
@@ -50,7 +49,6 @@ thoughtSchema = new Schema(
     },
     username: { type: String, required: true },
     reactions: [reactionSchema],
-    //	"__v": 0 what is this?
   },
   {
     toJSON: {
@@ -62,6 +60,9 @@ thoughtSchema = new Schema(
 
 //Schema Settings
 //Create a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
 
 function validateThought(thought) {
   const schema = Joi.object({
@@ -76,5 +77,3 @@ const Thought = model("thought", thoughtSchema);
 
 exports.Thought = Thought;
 exports.validateThought = validateThought;
-exports.thoughtSchema = thoughtSchema;
-exports.reactionSchema = reactionSchema;

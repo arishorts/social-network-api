@@ -1,6 +1,5 @@
 const Joi = require("joi");
 const { Schema, model } = require("mongoose");
-const { thoughtSchema } = require("./Thought");
 
 userSchema = new Schema(
   {
@@ -40,6 +39,10 @@ userSchema = new Schema(
     id: false,
   }
 );
+
+userSchema.virtual("friendCount").get(function () {
+  return this.friends.length;
+});
 
 function validateUser(user) {
   const schema = Joi.object({
