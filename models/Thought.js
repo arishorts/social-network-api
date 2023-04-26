@@ -5,10 +5,10 @@ const dayjs = require("dayjs");
 reactionSchema = new Schema(
   {
     reactionId: {
-      //this is returning _id, id, and reactionsId.
       type: Schema.Types.ObjectId,
-      // type: mongoose.ObjectId,
-      default: () => new Types.ObjectId(),
+      default: function () {
+        Types.ObjectId();
+      },
     },
     reactionBody: {
       type: String,

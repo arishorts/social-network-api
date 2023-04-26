@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
   //localhost:3001/api/thoughts/
   try {
     const thoughts = await Thought.find().sort("username").select("-__v");
+
     res.send(thoughts).status(200);
   } catch (err) {
     res.status(500).json(err);

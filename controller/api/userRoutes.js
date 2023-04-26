@@ -18,20 +18,14 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   //localhost:3001/api/users/:id
   try {
-    const user = await User.findOne({ _id: req.params.id }).select("-__v");
-    // .populate("thoughts");
-    //.populate({
-    //path: "Thought",
-    // populate: {
-    //   path: "reactions",
-    // },
-    // }).select("-__v");
+    const user = await User.findOne({ _id: req.params.id })
+      .select("-__v")
+      .populate("friends");
+    //.populate("thoughts"); //refuses to work
 
     !user
       ? res.status(404).json({ message: "No user with that ID" })
       : res.send(user).status(200);
-
-    res.json(user);
   } catch (err) {
     res.status(500).json(err);
   }
