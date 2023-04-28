@@ -1,6 +1,6 @@
 const express = require("express");
 const db = require("./config/connection");
-const routes = require("./controller");
+const routes = require("./routes");
 const morgan = require("morgan");
 
 const app = express();
