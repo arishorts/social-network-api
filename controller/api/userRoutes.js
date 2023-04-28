@@ -20,8 +20,8 @@ router.get("/:id", async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id })
       .select("-__v")
-      .populate("friends");
-    //.populate("thoughts"); //refuses to work
+      .populate("friends")
+      .populate("thoughts");
 
     !user
       ? res.status(404).json({ message: "No user with that ID" })
