@@ -48,7 +48,7 @@ node server.js
 
 The API will have several routes for users and thoughts, including GET, POST, PUT, and DELETE routes
 
-!['alt text](./assets/images/demo.jpg)
+![alt text](./assets/images/demo.JPG)
 
 GET: retrieve all users
 `localhost:3001/api/users/`
