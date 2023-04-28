@@ -68,6 +68,17 @@ module.exports = {
         return res
           .status(404)
           .send("The thought with the given ID was not found.");
+
+      let user = await User.findOneAndUpdate(
+        { thoughts: req.params.thoughtId },
+        { $pull: { thoughts: req.params.thoughtId } },
+        { new: true }
+      );
+      if (!thought)
+        return res
+          .status(404)
+          .send("The thought with the given ID was not found.");
+
       res.send(thought);
     } catch (err) {
       res.status(500).json(err);
