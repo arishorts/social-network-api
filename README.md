@@ -43,9 +43,12 @@ node server.js
 
 ## Usage:
 
+&nbsp; The github can be found at: https://github.com/arishorts/social-network-api <br>
+&nbsp; A Youtube video demonstration can be found at: https://youtu.be/Xvf9rbceKlI
+
 The API will have several routes for users and thoughts, including GET, POST, PUT, and DELETE routes
 
-!['./assets/images/demo.jp'](./assets/images/demo.jp)
+!['alt text](./assets/images/demo.jpg)
 
 GET: retrieve all users
 `localhost:3001/api/users/`
@@ -87,9 +90,6 @@ DELETE: remove a user's reaction to a thought
 `localhost:3001/api/thoughts/:thoughtId/reactions/:reactionId`
 
 In addition to the main features, the API will have several virtuals and subdocuments created with the reactionSchema. The User model will have a virtual called friendCount that retrieves the length of the user's friends array field on query. The Thought model will have a virtual called reactionCount that retrieves the length of the thought's reactions array field on query, as well as a subdocument schema for the reactions field. The project also includes creating a walkthrough video that demonstrates its functionality and all acceptance criteria being met.
-
-&nbsp; The github can be found at: https://github.com/arishorts/social-network-api
-&nbsp; A Youtube video demonstration can be found at: https://youtu.be/Xvf9rbceKlI
 
 ## Tests:
 
